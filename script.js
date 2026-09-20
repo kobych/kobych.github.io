@@ -16,12 +16,15 @@ function syncThemeControl() {
 toggle.addEventListener('click', () => {
   const next = resolvedTheme() === 'dark' ? 'light' : 'dark';
   root.dataset.theme = next;
-  localStorage.setItem('theme', next);
+  localStorage.setItem('theme-v2', next);
   syncThemeControl();
 });
 
-matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-  if (!localStorage.getItem('theme')) syncThemeControl();
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+  if (!localStorage.getItem('theme-v2')) {
+    root.dataset.theme = event.matches ? 'dark' : 'light';
+    syncThemeControl();
+  }
 });
 
 syncThemeControl();
